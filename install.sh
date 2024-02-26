@@ -7,9 +7,9 @@ ${SUDO} apt -y update
 ${SUDO} apt -y install software-properties-common git make vim wget tmux
 
 # To install StreamCMD
-${SUDO} add-apt-repository -y multiverse; ${SUDO} dpkg --add-architecture i386; ${SUDO} apt update
+${SUDO} add-apt-repository -y multiverse; ${SUDO} dpkg --add-architecture i386; ${SUDO} apt -y update
 ${SUDO} apt -y install steamcmd # Press Enter and Agree (2)
-${SUDO} ln -s /usr/bin `whereis steamcmd`
+${SUDO} ln -s `whereis steamcmd` /usr/bin
 
 # Download the Palworld dedicated server
 steamcmd +login anonymous +app_update 2394010 validate +quit
