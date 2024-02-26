@@ -1,10 +1,5 @@
 #!/bin/bash
 
-if [ `echo "$# != 2"` ]; then
-  echo "Usage: ./InifitePalServer.sh <server_password>"
-fi
-PASSWD=$1
-
 trap ctrl_c INT
 function ctrl_c() {
 	echo "**You are killing Palworld Server**"
@@ -16,6 +11,17 @@ function ctrl_c() {
 	echo "**Done**"
 	exit
 }
+
+if [ ! -d "${HOME}/Steam/steamapps/common/PalServer/Pal/Saved" ]; then
+  echo "Execute server to generate configuration files"
+  echo "PalServer.sh will be killed after 15sec..."
+  ./PalServer.sh &
+  sleep 15s
+  rcon -a localhost:25575 -p ${PASSWD} doexit
+  wait
+  echo "Enter server password: "
+  read pal_passwd
+fi
 
 MEM_THRESHOLD=90.0
 
@@ -34,20 +40,20 @@ do
 			rcon -a localhost:25575 -p ${PASSWD} "broadcast Server_will_restart_after_30sec"
 			rcon -a localhost:25575 -p ${PASSWD} "broadcast Current_status_will_be_save_automatically"
 			sleep 20s
-			rcon -H localhost:25575 -p ${PASSWD} "broadcast Server_will_restart_after_10sec"
-			rcon -H localhost:25575 -p ${PASSWD} "broadcast Current_status_will_be_save_automatically"
+			rcon -a localhost:25575 -p ${PASSWD} "broadcast Server_will_restart_after_10sec"
+			rcon -a localhost:25575 -p ${PASSWD} "broadcast Current_status_will_be_save_automatically"
 			sleep 10s
-			rcon -H localhost:25575 -p ${PASSWD} "broadcast Server_restarting...Goodbye!"
+			rcon -a localhost:25575 -p ${PASSWD} "broadcast Server_restarting...Goodbye!"
 			sleep 5s
-			rcon -H localhost:25575 -p ${PASSWD} save
-			rcon -H localhost:25575 -p ${PASSWD} doexit 
+			rcon -a localhost:25575 -p ${PASSWD} save
+			rcon -a localhost:25575 -p ${PASSWD} doexit 
 			wait
 			echo "**Copying Palworld SavedFile**"
 			cp -r ./Pal/Saved ${HOME}/Palworld_SaveFiles/Saved_$(date +%Y%m%d%H%M)
 			echo "**Done**"
 			break
 		else
-			sleep 5m
+			sleep 10s
 		fi
 	done
 done
