@@ -24,6 +24,6 @@ if [ ! -f "${HOME}/.steam/sdk64/steamclient.so" ]; then
 fi
 
 # Startup the Palworld dedicated server
-cd ${HOME}/Steam/steamapps/common/PalServer
-cp ./DefaultPalWorldSettings.ini ./Pal/Saved/Config/LinuxServer/PalWorldSettings.ini
-sed -i 's/RCONEnabled=False/RCONEnabled=True/' ./Pal/Saved/Config/LinuxServer/PalWorldSettings.ini
+PALSERVER_LOC=${HOME}/Steam/steamapps/common/PalServer
+cp ${PALSERVER_LOC}/DefaultPalWorldSettings.ini ${PALSERVER_LOC}/Pal/Saved/Config/LinuxServer/PalWorldSettings.ini
+sed -i 's/RCONEnabled=False/RCONEnabled=True/' ${PALSERVER_LOC}/Pal/Saved/Config/LinuxServer/PalWorldSettings.ini
