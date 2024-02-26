@@ -6,10 +6,12 @@ SUDO=`which sudo`
 ${SUDO} apt -y update
 ${SUDO} apt -y install software-properties-common git make vim wget tmux
 
-# To install StreamCMD
-${SUDO} add-apt-repository -y multiverse; ${SUDO} dpkg --add-architecture i386; ${SUDO} apt -y update
-${SUDO} apt -y install steamcmd # Press Enter and Agree (2)
-${SUDO} ln -s `whereis steamcmd` /usr/bin
+if [ ! -e "/usr/bin/steamcmd" ]; then
+  # To install StreamCMD
+  ${SUDO} add-apt-repository -y multiverse; ${SUDO} dpkg --add-architecture i386; ${SUDO} apt -y update
+  ${SUDO} apt -y install steamcmd # Press Enter and Agree (2)
+  ${SUDO} ln -s `whereis steamcmd` /usr/bin
+fi
 
 # Download the Palworld dedicated server
 steamcmd +login anonymous +app_update 2394010 validate +quit
@@ -25,4 +27,9 @@ fi
 
 # Startup the Palworld dedicated server
 PALSERVER_LOC=${HOME}/Steam/steamapps/common/PalServer
-cp ./infinitePalServer.sh ${PALSERVER_LOC}
+if [ ! -L "${PALSERVER_LOC}/infinitePalServer.sh" ]; then
+  if [ ! -e "${PALSERVER_LOC}/infinitePalServer.sh" ]; then
+    rm -rf ${PALSERVER_LOC}/infinitePalServer.sh
+  fi
+  ln -s `pwd`/infinitePalServer.sh ${PALSERVER_LOC}
+fi
