@@ -1,6 +1,6 @@
 # Palworld Dedicated Server Setup
 
-Palworld server 를 셋업하는데 필요한 작업들을 스크립트화 해놓았습니다.
+Palworld Dedciated Server 를 셋업하는데 필요한 작업들을 스크립트화 해놓았습니다.
 
 상세한 설명은 [Palworld Technical Guide](https://tech.palworldgame.com/) 를 참고하세요.
 
